@@ -46,9 +46,10 @@ body {
 #home { justify-content: flex-start; padding-top: 2rem; }
 
 .home-logo {
-  width: 180px; height: 180px; object-fit: contain;
+  width: 200px; height: 200px; object-fit: contain;
   margin-bottom: 0.5rem;
-  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4));
+  border-radius: 50%;
+  filter: drop-shadow(0 4px 16px rgba(0,0,0,0.5));
 }
 
 .home-sub {
@@ -275,6 +276,31 @@ body {
 .btn-secondary { flex:1; padding:0.9rem; background:transparent; border:1px solid var(--border); border-radius:10px; color:var(--text); font-family:'Inconsolata',monospace; font-size:0.82rem; cursor:pointer; transition:all 0.2s; }
 .btn-secondary:hover { border-color: var(--accent); }
 .btn-primary { flex:1; padding:0.9rem; background:var(--accent); border:none; border-radius:10px; color:var(--bg); font-family:'Bebas Neue',sans-serif; font-size:1.2rem; letter-spacing:0.1em; cursor:pointer; }
+
+.home-footer {
+  width: 100%; max-width: 400px;
+  margin-top: 1.5rem;
+  display: flex; flex-direction: column; align-items: center; gap: 0.8rem;
+  padding-bottom: 2rem;
+}
+.btn-download {
+  width: 100%; padding: 0.8rem;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--muted);
+  font-family: 'Inconsolata', monospace;
+  font-size: 0.8rem; letter-spacing: 0.08em;
+  cursor: pointer; transition: all 0.2s;
+  text-align: center;
+}
+.btn-download:hover { border-color: var(--accent); color: var(--text); }
+.footer-brand {
+  font-size: 0.65rem; color: var(--muted);
+  letter-spacing: 0.15em; text-align: center;
+  opacity: 0.6;
+}
+.footer-brand span { color: var(--accent2); }
 </style>
 </head>
 <body>
@@ -305,6 +331,11 @@ body {
   </div>
 
   <div class="level-grid" id="levelGrid"></div>
+
+  <div class="home-footer">
+    <button class="btn-download" onclick="downloadApp()">⬇ Instalar en este dispositivo</button>
+    <div class="footer-brand">una idea de <span>@waviwan</span></div>
+  </div>
 </div>
 
 <!-- STATS -->
@@ -907,6 +938,23 @@ function showScreen(id) {
 }
 
 function goHome() { showScreen('home'); renderHome(); }
+
+
+// PWA Install
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+});
+
+function downloadApp() {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
+  } else {
+    alert('Para instalar: usá el menú del navegador → "Agregar a pantalla de inicio"');
+  }
+}
 
 // PWA
 if ('serviceWorker' in navigator) {
