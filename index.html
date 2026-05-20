@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrenamiento Auditivo - Intervalos</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Platypi:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    
+    <script src="script.js" defer></script>
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Oído-Gym</h1>
+            <p class="subtitle">Entrena tu oído musical reconociendo intervalos</p>
+        </header>
+
+        <main>
+            <section id="config-section" class="card">
+                <h2>Configuración</h2>
+                
+                <div class="config-group">
+                    <h3>1. Selecciona los intervalos a entrenar:</h3>
+                    <div class="checkbox-grid">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="int-m2" value="m2" checked>
+                            <span class="checkmark"></span> Segunda Menor (1 semitono)
+                        </label>
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="int-M2" value="M2" checked>
+                            <span class="checkmark"></span> Segunda Mayor (2 semitonos)
+                        </label>
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="int-m3" value="m3" checked>
+                            <span class="checkmark"></span> Tercera Menor (3 semitonos)
+                        </label>
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="int-M3" value="M3" checked>
+                            <span class="checkmark"></span> Tercera Mayor (4 semitonos)
+                        </label>
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="int-P4" value="P4" checked>
+                            <span class="checkmark"></span> Cuarta Justa (5 semitonos)
+                        </label>
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="int-TT" value="TT">
+                            <span class="checkmark"></span> Tritono (6 semitonos)
+                        </label>
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="int-P5" value="P5" checked>
+                            <span class="checkmark"></span> Quinta Justa (7 semitonos)
+                        </label>
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="int-m6" value="m6">
+                            <span class="checkmark"></span> Sexta Menor (8 semitonos)
+                        </label>
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="int-M6" value="M6">
+                            <span class="checkmark"></span> Sexta Mayor (9 semitonos)
+                        </label>
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="int-m7" value="m7">
+                            <span class="checkmark"></span> Séptima Menor (10 semitonos)
+                        </label>
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="int-M7" value="M7">
+                            <span class="checkmark"></span> Séptima Mayor (11 semitonos)
+                        </label>
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="int-P8" value="P8" checked>
+                            <span class="checkmark"></span> Octava Justa (12 semitonos)
+                        </label>
+                    </div>
+                </div>
+
+                <div class="config-row">
+                    <div class="config-group flex-1">
+                        <h3>2. Dirección:</h3>
+                        <div class="radio-group">
+                            <label class="radio-container">
+                                <input type="radio" name="direction" value="asc" checked>
+                                <span class="radio-mark"></span> Ascendente
+                            </label>
+                            <label class="radio-container">
+                                <input type="radio" name="direction" value="desc">
+                                <span class="radio-mark"></span> Descendente
+                            </label>
+                            <label class="radio-container">
+                                <input type="radio" name="direction" value="harm">
+                                <span class="radio-mark"></span> Armónico (Simultáneo)
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="config-group flex-1">
+                        <h3>3. Instrumento:</h3>
+                        <select id="instrument-select" class="styled-select">
+                            <option value="sine">Onda Senoidal (Limpio)</option>
+                            <option value="triangle">Onda Triangular (Suave)</option>
+                            <option value="sawtooth">Onda Diente de Sierra (Brillante)</option>
+                            <option value="square">Onda Cuadrada (Retro)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button id="start-btn" class="btn btn-primary btn-large">¡Empezar Entrenamiento!</button>
+            </section>
+
+            <section id="game-section" class="card hidden">
+                <div class="game-header">
+                    <button id="back-btn" class="btn btn-secondary">← Configuración</button>
+                    <div class="score-board">
+                        <span>Aciertos: <strong id="score-correct">0</strong></span>
+                        <span>Total: <strong id="score-total">0</strong></span>
+                    </div>
+                </div>
+
+                <div class="action-area">
+                    <button id="play-btn" class="btn btn-action">
+                        <span class="icon">▶</span> Escuchar Intervalo
+                    </button>
+                </div>
+
+                <div class="feedback-area">
+                    <p id="feedback-message" class="message">&nbsp;</p>
+                </div>
+
+                <div id="options-container" class="options-grid">
+                    </div>
+
+                <button id="next-btn" class="btn btn-primary hidden">Siguiente Intervalo →</button>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 Oído-Gym - Desarrollado para músicos</p>
+        </footer>
+    </div>
+</body>
+</html>
+
